@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Developer
+        </title>
+        <h1>HTML developer</h1>
+        <style>
+
+            #cap{
+                text-align: left;
+                font-size: 1em;
+                color:black;
+                text-decoration: none;
+                width: 150px;;
+            }
+
+            
+        </style>
+    </head>
+    <body>
+       <div id="main"></div>
+        <script>
+        const resource="https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=71df993364e44f13bdd98055d6c8ac4e";
+
+        var request=new XMLHttpRequest();
+
+        request.open('GET',resource,true);
+
+        request.onload=function(){
+            var data=JSON.parse(this.response);
+
+            console.log(data);
+
+            //Looping the data using for loop
+
+            for(var i=0; i<=data.totalResults; i++){
+                //Get Main Id
+             const mainId=document.querySelector('#main');
+
+             //create Element
+             var urlImage=document.createElement('img');
+             var caption=document.createElement('a');
+             var para=document.createElement('p');
+
+
+             //Set Information
+            caption.innerHTML="<h4>"+data.articles[i].title+"</h4>";
+            caption.href=data.articles[i].url;  
+            urlImage.src=data.articles[i].urlToImage;
+            if(data.articles[i].description===""){
+
+            para.innerHTML="No description"+"<strong><br>"+data.articles[i].publishedAt+"<br>"+data.articles[i].source.name+"</br>"+"</br></strong>";       
+            
+            } else {
+                para.innerHTML=data.articles[i].description+"<strong><br>"+"Published At: "+data.articles[i].publishedAt+"<br>"+"Source: "+data.articles[i].source.name+"</br>"+"</br></strong>";       
+            
+            }
+
+             //append title to main div and set attribute
+             caption.setAttribute('id','cap');
+             mainId.appendChild(urlImage);
+             mainId.appendChild(caption);
+             mainId.appendChild(para);
+
+            //Style using Javascript
+            urlImage.style.width="300px";
+
+
+
+            }
+        }
+
+        request.send();
+        
+        </script>
+    </body>
+</html>
